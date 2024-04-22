@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "app/**/*","**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components", "app/history", "app/ui", "prisma/seed.js", "prisma/asdf.js"],
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,10 @@
+# Ignore Node.js modules
+node_modules
+
+# Ignore build artifacts and temporary files
+.next/
+out/
+.cache/
+.next
+npm-debug.log
+yarn-error.log

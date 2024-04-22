@@ -1,0 +1,221 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  accounts              Account[]
+  role                  UserRole               @default(USER)
+  isTwoFactorEnabled    Boolean                @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+
+  // sessions      Session[]
+  GymTemplate         GymTemplate[]
+  GymTemplateExercise GymTemplateExercise[]
+  GymSession          GymSession[]
+  GymSessionData      GymSessionData[]
+  Exercise            Exercise[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+// Always safer to make separate tokens for separate actions
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
+
+model Exercise {
+  id     String @id @default(cuid())
+  name   String
+  userId String
+
+  UserId              User                  @relation(fields: [userId], references: [id])
+  GymTemplateExercise GymTemplateExercise[]
+  GymSessionData      GymSessionData[]
+  ExerciseInstance    ExerciseInstance[]
+}
+
+// Stores client created data (exercises) for Training Templates (Originally Training Template)
+model GymTemplateExercise {
+  id            String @id @default(cuid())
+  gymTemplateId String
+  exerciseId    String
+  userId        String
+  orderId       Int
+  sets          Int
+  reps          Int
+
+  Exercise    Exercise    @relation(fields: [exerciseId], references: [id])
+  User        User        @relation(fields: [userId], references: [id])
+  GymTemplate GymTemplate @relation(fields: [gymTemplateId], references: [id])
+}
+
+// Stores Metadata of the Gym Templates (Originally TrainingTemplateMetadata)
+model GymTemplate {
+  id     String @id @default(cuid())
+  name   String
+  userId String
+
+  User                User                  @relation(fields: [userId], references: [id])
+  GymTemplateExercise GymTemplateExercise[]
+  GymSessionData      GymSessionData[]
+  GymSession          GymSession[]
+  ExerciseInstance    ExerciseInstance[]
+}
+
+// Table that stores the entire workout session itself (e.g. 3/6 Week 21 day 2) 
+model GymSession {
+  id                 String   @id @default(cuid())
+  date               DateTime
+  description        String? // maybe name to notes, could keep all notes here instead of individual 
+  userId             String // exercises, would be much easier 
+  gymTemplateId      String
+  hasFinishedWorkout Boolean
+  reachedGoal        Boolean
+
+  GymTemplate      GymTemplate        @relation(fields: [gymTemplateId], references: [id])
+  User             User               @relation(fields: [userId], references: [id])
+  GymSessionData   GymSessionData[]
+  ExerciseInstance ExerciseInstance[]
+}
+
+// Table that stores every specific exercise done within a workout (e.g. Bench 5x5 @ 225 lbs lil hard)
+model GymSessionData {
+  id            String  @id @default(cuid())
+  exerciseId    String
+  gymSessionId  String
+  gymTemplateId String
+  notes         String?
+  userId        String
+  isFinished    Boolean
+
+  exercise         Exercise           @relation(fields: [exerciseId], references: [id])
+  GymSessionId     GymSession         @relation(fields: [gymSessionId], references: [id])
+  user             User               @relation(fields: [userId], references: [id])
+  GymTemplate      GymTemplate        @relation(fields: [gymTemplateId], references: [id])
+  ExerciseInstance ExerciseInstance[]
+}
+
+// Table tracks each set for each exercise done by the user, necessary to save 
+// data for lookups on previous sets and reps. Future functionality 
+// for determining how many times one has failed
+model ExerciseInstance {
+  id               String @id @default(cuid())
+  weight           Int
+  setCount         Int
+  repCount         Int
+  gymSessionId     String
+  gymTemplateId    String
+  userId           String
+  exerciseId       String
+  gymSessionDataId String
+
+  GymSessionId     GymSession     @relation(fields: [gymSessionId], references: [id])
+  GymTemplateId    GymTemplate    @relation(fields: [gymTemplateId], references: [id])
+  ExerciseId       Exercise       @relation(fields: [exerciseId], references: [id])
+  GymSessionDataId GymSessionData @relation(fields: [gymSessionDataId], references: [id])
+}
+
+// User Creates a Template for their workout trainingTemplate
+// User adds Exercises to this Template they made Exercises
+// User saves their template
+// User selects template to begin their workout 
+// User inserts their data into this new 
+// User Submits data
+
+// WorkoutRoutineMetadata
+
+// exerciseTemplate -> trainingTemplate
+// workout -> trainingSession
+// exercise -> exercise
+// user -> user
+// workout_template -> trainingTemplateMetadata
+// workoutExercise -> trainingData
+
+// TrainingSessionExercise: [
+//   {
+//     id: 1,
+//     exerciseId: Bench,
+//     TrainingSessionId: 1
+//     Set: 1
+//     RepsForSet: 8
+//   },
+//     {
+//     id: 1,
+//     exerciseId: Bench,
+//     TrainingSessionId: 1
+//     Set: 2
+//     RepsForSet: 7
+//   },
+//     {
+//     id: 1,
+//     exerciseId: Bench,
+//     TrainingSessionId: 1
+//     Set: 2
+//     RepsForSet: 6
+//   }
+// ]
