@@ -41,7 +41,7 @@ export const CreateExerciseDialogue = () => {
       <DialogTrigger asChild>
         <Button variant="outline">Create Exercise</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] w-[80vw] rounded-lg">
         <DialogHeader>
           <DialogTitle>Create Exercise</DialogTitle>
           <Input

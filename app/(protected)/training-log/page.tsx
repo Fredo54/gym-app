@@ -1,9 +1,10 @@
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { currentUser } from "@/lib/auth";
-import { getTrainingSessionAll } from "@/data/training-session";
+import { getTrainingSessionAll } from "@/actions/training-session";
 import { TrainingSessionCard } from "@/components/gym-session/training-session-card";
 import { ExerciseTable } from "@/components/exercise/exercise-table";
 import { CreateExerciseDialogue } from "@/components/exercise/create-exercise-dialogue";
+
 const TrainingLogPage = async () => {
   // const user = useCurrentUser();
   const user = await currentUser();

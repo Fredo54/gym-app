@@ -40,9 +40,9 @@ import {
   FormItem,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { SwitchDemo } from "@/app/(protected)/workout/[gymTemplateId]/foo";
+import { SwitchWrapper } from "@/components/gym-session/switch-wrapper";
 import { TrainingTemplate } from "@/types/types";
-import { GymSessionExerciseSchema, GymSessionSchema } from "@/schemas";
+import { GymSessionSchema } from "@/schemas";
 import { useMemo } from "react";
 import { toast } from "sonner";
 import { createTrainingSession } from "@/actions/training-session";
@@ -299,9 +299,11 @@ export const GymSessionForm = ({
                                 render={({ field }) => (
                                   <FormItem className="col-span-2 col-start-3">
                                     <FormControl>
-                                      <SwitchDemo
+                                      <SwitchWrapper
                                         checked={field.value}
                                         onCheckedChange={field.onChange}
+                                        id="is-finished"
+                                        text="Finished?"
                                       />
                                     </FormControl>
                                   </FormItem>

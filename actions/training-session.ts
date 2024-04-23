@@ -153,6 +153,7 @@ export const getTrainingSessionAll = async (
   offset: number = 0,
   limit: number = 10
 ) => {
+  console.log("offset: ", offset, " limit: ", limit);
   try {
     const gymSessions = await db.gymSession.findMany({
       skip: offset,
@@ -197,13 +198,30 @@ export const getTrainingSessionAll = async (
       },
     });
 
+    const exercises = await db.exercise.findMany({
+      skip: 9,
+      where: {
+        userId: userId,
+      },
+    });
+
+    const foo = await db.gymSession.findMany({
+      // where: {
+      //   userId: userId,
+      // },
+    });
+    const count = await db.gymSession.count();
+    console.log("test exercises: ", exercises);
+    console.log("count gymSessions: ", count);
+    console.log("Hello gymSessions: ", gymSessions);
+    // console.log("foo gymSessions: ", foo);
     // const gymSessionData = await db.gymSessionData.findMany({
     //   where:
     // })
 
     const res = [];
     for (const gymSession of gymSessions) {
-      console.log("bruh");
+      // console.log("bruh");
       const foo = gymSession.GymTemplate.GymTemplateExercise;
 
       res.push({
