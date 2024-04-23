@@ -1,14 +1,12 @@
-import { UserAuth } from "../context/AuthContext";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import AvatarDropDown from "./AvatarDropdown";
 
 const navItems = ["Routine", "History", "Progress", "Calendar"];
 
 function NavBar() {
   const [itemClicked, setItemClicked] = useState("");
-  const { user } = UserAuth();
+  const user = {};
 
   return (
     <>
@@ -80,7 +78,6 @@ function NavBar() {
                         />
                       </button>
                     </div> */}
-                    <AvatarDropDown />
                   </div>
                 </div>
               </div>

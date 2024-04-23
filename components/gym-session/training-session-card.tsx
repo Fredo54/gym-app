@@ -52,11 +52,6 @@ export const TrainingSessionCard = ({ data }: TrainingSessionCardProps) => {
   const [offset, setOffset] = useState(0);
   const limit = 1;
   console.log("gymSessionData: ", gymSessionData);
-  console.log("gymSessionData[0]: ", gymSessionData[0]); //gymSessionData[1]
-  console.log(
-    "sets: ",
-    gymSessionData[0].GymTemplate.GymTemplateExercise[0].sets
-  );
 
   const onClick = async () => {
     try {
