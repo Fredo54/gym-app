@@ -1,9 +1,10 @@
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { currentUser } from "@/lib/auth";
 import { getTrainingSessionAll } from "@/actions/training-session";
-import { TrainingSessionCard } from "@/components/gym-session/training-session-card";
+import { GymSessionCard } from "@/components/gym-session/gym-session-card";
 import { ExerciseTable } from "@/components/exercise/exercise-table";
 import { CreateExerciseDialogue } from "@/components/exercise/create-exercise-dialogue";
+import { GymSessionDropdownMenu } from "@/components/gym-session/gym-session-dropdown-menu";
 
 const TrainingLogPage = async () => {
   // const user = useCurrentUser();
@@ -13,11 +14,11 @@ const TrainingLogPage = async () => {
 
   return (
     <div className="w-full">
-      <h1>Training Log Page</h1>
+      <h1>Gym Session Log Page</h1>
 
       {/* {data} */}
-      {data && <TrainingSessionCard data={data} />}
-      <ExerciseTable />
+      {data && <GymSessionCard data={data} />}
+      <GymSessionDropdownMenu />
     </div>
   );
 };

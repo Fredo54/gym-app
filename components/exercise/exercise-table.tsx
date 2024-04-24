@@ -17,7 +17,7 @@ export const ExerciseTable = async () => {
   const exercises = await getExerciseAll(user?.id as string);
 
   return (
-    <ScrollArea className="h-40">
+    <ScrollArea className="h-40 md:w-[400px]">
       <Table>
         <TableHeader>
           <TableRow>
@@ -27,7 +27,7 @@ export const ExerciseTable = async () => {
         <TableBody>
           {exercises?.map((exercise) => (
             <TableRow key={exercise.id}>
-              <TableCell>{exercise.name}</TableCell>
+              <TableCell className="p-2">{exercise.name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

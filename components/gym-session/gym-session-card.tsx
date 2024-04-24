@@ -16,8 +16,9 @@ import { useState } from "react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { formatTimeToHours } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { GymSessionDropdownMenu } from "@/components/gym-session/gym-session-dropdown-menu";
 
-type TrainingSessionCardProps = {
+type GymSessionCardProps = {
   data: {
     GymTemplate: {
       GymTemplateExercise: {
@@ -49,7 +50,7 @@ type TrainingSessionCardProps = {
   }[];
 };
 
-export const TrainingSessionCard = ({ data }: TrainingSessionCardProps) => {
+export const GymSessionCard = ({ data }: GymSessionCardProps) => {
   const [gymSessionData, setGymSessionData] = useState(data);
   const user = useCurrentUser();
   const [offset, setOffset] = useState(0);
@@ -103,9 +104,10 @@ export const TrainingSessionCard = ({ data }: TrainingSessionCardProps) => {
                 <div className="flex flex-col justify-between rounded-lg border p-3 gap-3 shadow-sm overflow-auto h-[200px]">
                   <span className="flex flex-row items-center justify-between">
                     <p className="text-sm font-medium">Exercise</p>
-                    <Button className="p-0 h-6 w-8">
+                    {/* <Button className="p-0 h-6 w-8">
                       <DotsHorizontalIcon className="justify-center items-center h-4 w-4" />
-                    </Button>
+                    </Button> */}
+                    <GymSessionDropdownMenu />
                   </span>
                   {item.GymSessionData?.map((data, idx) => {
                     // console.log(data);

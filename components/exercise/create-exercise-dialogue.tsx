@@ -14,10 +14,12 @@ import { Input } from "@/components/ui/input";
 import { createExercise } from "@/actions/exercise";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const CreateExerciseDialogue = () => {
   const [exercise, setExercise] = useState("");
   const user = useCurrentUser();
+  const router = useRouter();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExercise(e.target.value);
   };
@@ -30,6 +32,7 @@ export const CreateExerciseDialogue = () => {
       });
       if (success) {
         console.log(success);
+        router.refresh();
       }
     } catch (error) {
       console.error(error);
