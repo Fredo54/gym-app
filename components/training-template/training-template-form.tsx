@@ -32,7 +32,7 @@ import { Input } from "@/components/ui/input";
 import { DevTool } from "@hookform/devtools";
 import { createTrainingTemplate } from "@/actions/training-template";
 import { useRouter } from "next/navigation";
-import { Exercise } from "@/types/types";
+import { Exercise } from "@prisma/client";
 import { toast } from "sonner";
 
 type Props = {

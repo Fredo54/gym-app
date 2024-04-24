@@ -31,8 +31,22 @@ import {
   AlertDialogTrigger,
   AlertDialogPortal,
 } from "@/components/ui/alert-dialog";
+import { useEffect, useState } from "react";
+import { useFetchExerciseInstances } from "@/hooks/use-fetch-exercise-instances";
+import { GymSessionDialogEdit } from "@/components/gym-session/gym-session-dialog-edit";
+export const GymSessionDropdownMenu = ({
+  gymSessionId,
+}: {
+  gymSessionId: string;
+}) => {
+  //   const [click, setClick] = useState(false);
 
-export const GymSessionDropdownMenu = () => {
+  //   const onClick = () => {
+  //     const { exerciseInstances, loading, error } = useFetchExerciseInstances({
+  //       gymSessionId,
+  //     });
+  //   };
+
   return (
     <Dialog>
       <AlertDialog>
@@ -44,7 +58,9 @@ export const GymSessionDropdownMenu = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DialogTrigger asChild>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => console.log("edit")}>
+                Edit
+              </DropdownMenuItem>
             </DialogTrigger>
             <AlertDialogTrigger asChild>
               <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -55,8 +71,7 @@ export const GymSessionDropdownMenu = () => {
               <DialogHeader>
                 <DialogTitle>Edit me later</DialogTitle>
                 <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  <GymSessionDialogEdit gymSessionId={gymSessionId} />
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>

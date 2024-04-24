@@ -181,14 +181,3 @@ export const getGymTemplateByGymTemplateId = async (gymTemplateId: string) => {
   });
   return gymTemplate;
 };
-/*
-{
-  trainingTemplateMetadataId: true
-  name: true,
-  exercises: {
-    name: true
-    reps: true,
-    sets: true
-  }[]
-}
-*/

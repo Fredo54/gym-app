@@ -2,9 +2,7 @@ import { TrainingTemplateForm } from "@/components/training-template/training-te
 import { TrainingTemplateCards } from "@/components/training-template/training-template-cards";
 import { currentUser } from "@/lib/auth";
 import { getExerciseAll } from "@/actions/exercise";
-import { Exercise } from "@/types/types";
-
-// This declares Exercise as an array of objects with properties id, name, and userId
+import { Exercise } from "@prisma/client";
 
 const TrainingTemplatePage = async () => {
   const user = await currentUser();

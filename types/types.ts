@@ -16,9 +16,3 @@ export type TrainingTemplate = {
   sets: number;
   reps: number;
 };
-
-export type Exercise = {
-  id: string;
-  name: string;
-  userId: string;
-};

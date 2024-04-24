@@ -18,7 +18,6 @@ const TrainingLogPage = async () => {
 
       {/* {data} */}
       {data && <GymSessionCard data={data} />}
-      <GymSessionDropdownMenu />
     </div>
   );
 };

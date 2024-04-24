@@ -4,8 +4,6 @@ import { z } from "zod";
 import { GymSessionSchema } from "@/schemas";
 import { v4 as uuid } from "uuid";
 
-// Def WRONG !!
-// We want to create multiple rows for each set
 export const createTrainingSession = async (
   values: z.infer<typeof GymSessionSchema>
 ) => {
@@ -14,11 +12,9 @@ export const createTrainingSession = async (
     return { error: "Invalid fields!" };
   }
 
-  // console.log(validatedFields);
   const { exercises, date, description, gymTemplateId, userId } =
     validatedFields.data;
 
-  // console.log(exercises);
   const gymSessionDataPayload = [];
 
   const exerciseInstancesPayload: {
@@ -31,19 +27,7 @@ export const createTrainingSession = async (
     exerciseId: string;
     gymSessionDataId: string;
   }[] = [];
-  /*
-  [
-    {
-      exerciseId: "",
-      gymSessionId: "",
-      gymTemplateId: "",
-      notes: "",
-      userId: "",
-      isFinished: true
-    },
 
-  ]
-  */
   try {
     const gymSession = await db.gymSession.create({
       data: {
@@ -76,76 +60,21 @@ export const createTrainingSession = async (
           gymTemplateId: gymTemplateId,
           userId: userId,
           exerciseId: exercise.exerciseId,
-          // gymSessionDataId: gymSessionDataPayload[i].id,
         });
       }
     }
 
-    console.log("exerciseInstancesPayload: ", exerciseInstancesPayload);
-    // const gymSessionDataIds: {
-    //   id: string;
-    //   // exerciseId: string;
-    //   // gymSessionId: string;
-    //   // gymTemplateId: string;
-    //   // notes: string | null;
-    //   // userId: string;
-    //   // isFinished: boolean;
-    // }[] = [];
-    const gymSessionDataIds: string[] = [];
-    // gymSessionDataPayload.map(async (gymSessionData, index) => {
-    //   const gymSessionDataId = await db.gymSessionData.create({
-    //     data: gymSessionData,
-    //   });
     await db.gymSessionData.createMany({
       data: gymSessionDataPayload,
     });
 
-    // console.log("data: ", {
-    //   gymSessionDataId: gymSessionDataId.id,
-    //   ...exerciseInstancesPayload[index],
-    // });
     await db.exerciseInstance.createMany({
       data: exerciseInstancesPayload,
     });
-
-    // console.log("gymSessionDataPayload: ", gymSessionDataPayload);
-    // console.log("exerciseInstancesPayload: ", exerciseInstancesPayload);
-    // console.log("gymSessionDataIds: ", gymSessionDataIds);
-
-    // gymSessionDataIds.map(async (gymSessionDataId, index) => {
-    //   await db.exerciseInstance.createMany({
-    //     data: {
-    //       gymSessionDataId: gymSessionDataId,
-    //       ...exerciseInstancesPayload[index],
-    //     },
-    //   });
-    // });
   } catch (error) {
     return { error: "Something went wrong!" };
   }
-
-  /*
-  [
-    {
-      exerciseInstanceId: "",
-      weight: 0,
-      setCount: 0,
-      repCount: 0,
-      gymSessionId: "",
-      gymTemplateId: "",
-      userId: "",
-      exerciseId: "",
-      gymSessionDataId: "",
-    }
-  ]
-  */
-
   return { success: "Training Session created!" };
-};
-
-export const getGymSessions = async () => {
-  const gymSessions = await db.gymSession.findMany();
-  return gymSessions;
 };
 
 export const getTrainingSessionAll = async (
@@ -153,7 +82,7 @@ export const getTrainingSessionAll = async (
   offset: number = 0,
   limit: number = 10
 ) => {
-  console.log("offset: ", offset, " limit: ", limit);
+  // console.log("offset: ", offset, " limit: ", limit);
   try {
     const gymSessions = await db.gymSession.findMany({
       skip: offset,
@@ -198,42 +127,20 @@ export const getTrainingSessionAll = async (
       },
     });
 
-    const exercises = await db.exercise.findMany({
-      skip: 9,
-      where: {
-        userId: userId,
-      },
-    });
-
-    const foo = await db.gymSession.findMany({
-      // where: {
-      //   userId: userId,
-      // },
-    });
-    const count = await db.gymSession.count();
-    console.log("test exercises: ", exercises);
-    console.log("count gymSessions: ", count);
-    console.log("Hello gymSessions: ", gymSessions);
-    // console.log("foo gymSessions: ", foo);
-    // const gymSessionData = await db.gymSessionData.findMany({
-    //   where:
-    // })
-
-    const res = [];
+    const formattedGymSessions = [];
     for (const gymSession of gymSessions) {
-      // console.log("bruh");
-      const foo = gymSession.GymTemplate.GymTemplateExercise;
+      const gymTemplateExercises = gymSession.GymTemplate.GymTemplateExercise;
 
-      res.push({
+      formattedGymSessions.push({
         ...gymSession,
         GymSessionData: gymSession.GymSessionData.map(
           (gymSessionData, index) => {
             return {
               ...gymSessionData,
               exercise: {
-                name: foo[index].Exercise.name,
-                sets: foo[index].sets,
-                reps: foo[index].reps,
+                name: gymTemplateExercises[index].Exercise.name,
+                sets: gymTemplateExercises[index].sets,
+                reps: gymTemplateExercises[index].reps,
               },
             };
           }
@@ -241,20 +148,25 @@ export const getTrainingSessionAll = async (
       });
     }
 
-    return res;
+    return formattedGymSessions;
   } catch (error) {
     console.error(error);
     return null;
   }
 };
-/*
-  1 Created Training Template
-  TrainingSession Selected, insert a date and give it a name for the session
-  Already has predefined exercises within the template
-  User Adds their weights and sets and reps for each exercise in the template (Must be an array)
-  After that user submits the form and posts to database
 
-  Database POST:
-  Create TrainingSession and grab TrainingSessionId
-  Use TrainingSessionId to populate TrainingData with createMany({})
- */
+// Not used anywhere
+export const getTrainingSessionById = async (id: string, userId: string) => {
+  try {
+    const gymSession = await db.gymSession.findUnique({
+      where: {
+        id: id,
+        userId: userId,
+      },
+    });
+    return gymSession;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};

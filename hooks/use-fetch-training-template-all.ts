@@ -1,45 +1,17 @@
 "use client";
 
-import {
-  getTrainingTemplateAll,
-  getTrainingTemplateAllGrouped,
-} from "@/actions/training-template";
+import { getTrainingTemplateAllGrouped } from "@/actions/training-template";
 import { useEffect, useState } from "react";
-import { GymTemplateExerciseSchema, GymSessionAndDataSchema } from "@/schemas";
-import { z } from "zod";
 import { useCurrentUser } from "./use-current-user";
-
-/*
-const trainingTemplates: {
-    name: string;
-    userId: string;
-    exercises: {
-        exerciseId: string;
-        orderId: number;
-        sets: number;
-        reps: number;
-    }[];
-}[]
-
-
-const trainingTemplates: {
-    id: string;
-    trainingTemplateMetadataId: string;
-    exerciseId: string;
-    userId: string;
-    orderId: number;
-    sets: number;
-    reps: number;
-}[]
-*/
+import { ReducedTrainingTemplate } from "@/types/types";
 
 export const useFetchTrainingTemplateAll = () => {
   const user = useCurrentUser();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [trainingTemplates, setTrainingTemplates] = useState<z.infer<any>[]>(
-    []
-  );
+  const [trainingTemplates, setTrainingTemplates] = useState<
+    ReducedTrainingTemplate[]
+  >([]);
 
   useEffect(() => {
     const fetchTrainingTemplates = async () => {
