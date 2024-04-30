@@ -17,7 +17,7 @@ export const authRoutes = [
   "/auth/reset",
   "/auth/new-password",
 ];
-
+// "/api/gym-session",
 /**
  * The prefix for API authentication routes
  * Routes that start with this prefix are used for API

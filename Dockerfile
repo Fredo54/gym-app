@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:20 as build
+FROM node:20-alpine as build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -9,6 +9,7 @@ COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm install
+# RUN npm install --production
 
 # Copy the entire project directory to the working directory
 COPY . .
@@ -16,13 +17,13 @@ COPY . .
 COPY public ./public
 
 # Build the Next.js application
-RUN npx prisma generate
+RUN npx prisma generate 
 RUN npm run build
 # RUN AUTH_SECRET 
 # ENV NEXTAUTH_URL="https://gym-web-client-dr7lbxqoaa-uc.a.run.app/"
 
 # Stage 2: Serve the application with a lightweight Node.js server
-FROM node:20
+FROM node:20-alpine
 
 # Set the working directory in the container
 WORKDIR /app
@@ -30,12 +31,16 @@ WORKDIR /app
 # Copy the built application from the previous stage
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./
+COPY --from=build /app/prisma ./
+COPY --from=build /app/package-lock.json ./
 
 # Copy the package.json and package-lock.json files
-COPY package.json package-lock.json prisma ./
+# COPY package.json package-lock.json prisma ./
 
 # Install only production dependencies
-RUN npm install --only=production
+# RUN npm install --only=production
 
 # Expose the port the application will run on
 EXPOSE 3000

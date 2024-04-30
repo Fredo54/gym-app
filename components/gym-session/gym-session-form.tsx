@@ -57,15 +57,6 @@ export const GymSessionForm = ({
   userId: string;
 }) => {
   const defaultExercisesValues = useMemo(() => {
-    // const values: Record<
-    //   string,
-    //   {
-    //     weight: number[];
-    //     reps: number[];
-    //     notes: string;
-    //     isFinished: boolean;
-    //   }
-    // > = {};
     const values: {
       exerciseId: string;
       weight: number[];
@@ -73,14 +64,7 @@ export const GymSessionForm = ({
       notes: string;
       isFinished: boolean;
     }[] = [];
-    // trainingTemplate.forEach((exercise) => {
-    //   values[exercise.Exercise.id] = {
-    //     weight: Array(exercise.sets).fill(0), // Initialize weight array with 0s based on sets
-    //     reps: Array(exercise.sets).fill(0), // Initialize reps array with 0s based on sets
-    //     notes: "", // Initialize notes as empty string
-    //     isFinished: false, // Default isFinished to false
-    //   };
-    // });
+
     trainingTemplate.forEach((exercise) => {
       values.push({
         exerciseId: exercise.Exercise.id,
@@ -107,26 +91,7 @@ export const GymSessionForm = ({
   const { formState, setError } = form;
   const { isDirty } = formState;
 
-  // console.log(trainingTemplate);
   const onSubmit = async (values: z.infer<typeof GymSessionSchema>) => {
-    // const hasEmptyExerciseId = values.exercises.some(
-    //   (exercise) => exercise.exerciseId === ""
-    // );
-
-    // if (hasEmptyExerciseId) {
-    //   // Display an error message or show a validation error for the exerciseId field
-    //   // You can use a form library like Formik or react-hook-form to handle form validation
-    //   // Example using react-hook-form:
-    //   const index = values.exercises.findIndex(
-    //     (exercise) => exercise.exerciseId === ""
-    //   );
-    //   setError(`exercises.${index}.exerciseId`, {
-    //     type: "required",
-    //     message: "Exercise is required",
-    //   });
-    //   return;
-    // }
-
     for (const exerciseId in values.exercises) {
       const hasEmptyReps = values.exercises[exerciseId].reps.some(
         (rep) => rep === 0
@@ -159,10 +124,6 @@ export const GymSessionForm = ({
     console.log("submitted");
     console.log(values);
   };
-
-  // if (loading) {
-  //   return <p>Loading...</p>;
-  // }
 
   return (
     <>

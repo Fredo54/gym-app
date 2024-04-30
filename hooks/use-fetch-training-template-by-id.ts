@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  getTrainingTemplateAll,
-  getTrainingTemplateAllGrouped,
-  getGymTemplateByGymTemplateId,
-} from "@/actions/training-template";
+import { getGymTemplateByGymTemplateId } from "@/actions/training-template";
 import { useEffect, useState } from "react";
-import { GymTemplateExerciseSchema, GymSessionAndDataSchema } from "@/schemas";
-import { z } from "zod";
 import { useCurrentUser } from "./use-current-user";
 import { TrainingTemplate } from "@/types/types";
 
@@ -15,14 +9,6 @@ export const useFetchTrainingTemplateById = ({ id }: { id: string }) => {
   const user = useCurrentUser();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // const trainingTemplate: {
-  //   sets: number;
-  //   reps: number;
-  //   Exercise: {
-  //     name: string;
-  //   };
-  // }[];
 
   const [trainingTemplate, setTrainingTemplate] = useState<TrainingTemplate[]>(
     []

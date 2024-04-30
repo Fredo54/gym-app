@@ -31,9 +31,8 @@ import {
   AlertDialogTrigger,
   AlertDialogPortal,
 } from "@/components/ui/alert-dialog";
-import { useEffect, useState } from "react";
-import { useFetchExerciseInstances } from "@/hooks/use-fetch-exercise-instances";
 import { GymSessionDialogEdit } from "@/components/gym-session/gym-session-dialog-edit";
+
 export const GymSessionDropdownMenu = ({
   gymSessionId,
 }: {
@@ -70,7 +69,7 @@ export const GymSessionDropdownMenu = ({
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Edit me later</DialogTitle>
-                <DialogDescription>
+                <DialogDescription asChild>
                   <GymSessionDialogEdit gymSessionId={gymSessionId} />
                 </DialogDescription>
               </DialogHeader>

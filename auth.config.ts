@@ -7,25 +7,6 @@ import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "./data/user";
 
 export const authConfig = {
-  // pages: {
-  //   signIn: "/login",
-  // },
-  // callbacks: {
-  //   // authorized({ auth, request: { nextUrl } }) {
-  //   //   const isLoggedIn = !!auth?.user;
-  //   //   const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
-  //   //   console.log(
-  //   //     `isLoggedIn: ${isLoggedIn} isOnDashboard: ${isOnDashboard} nextUrl.pathname: ${nextUrl.pathname}`
-  //   //   );
-  //   //   if (isOnDashboard) {
-  //   //     if (isLoggedIn) return true;
-  //   //     return false; // Redirect unauthenticated users to login page
-  //   //   } else if (isLoggedIn) {
-  //   //     return Response.redirect(new URL("/dashboard", nextUrl));
-  //   //   }
-  //   //   return true;
-  //   // },
-  // },
   trustHost: true,
   providers: [
     Google({

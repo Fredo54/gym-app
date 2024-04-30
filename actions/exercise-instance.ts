@@ -12,6 +12,28 @@ export const getExerciseInstancesByGymSessionId = async (
         gymSessionId: gymSessionId,
         userId: userId,
       },
+      select: {
+        ExerciseId: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+        weight: true,
+        setCount: true,
+        repCount: true,
+        id: true,
+        GymSessionDataId: {
+          select: {
+            exercise: {
+              select: {
+                name: true,
+              },
+            },
+            notes: true,
+          },
+        },
+      },
     });
     console.log("ExerciseInstances: ", exerciseInstances);
     return exerciseInstances;

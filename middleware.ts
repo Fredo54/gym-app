@@ -9,15 +9,6 @@ import {
   publicRoutes,
 } from "@/routes";
 
-// import { auth } from "@/auth";
-
-// // This function can be marked `async` if using `await` inside
-// export function middleware(request: NextRequest) {
-//   let verify = request;
-//   console.log("cookies: ", verify);
-//   //   return NextResponse.redirect(new URL("/routine", request.url));
-// }
-
 const { auth } = NextAuth(authConfig);
 
 export default auth((req: any) => {
@@ -35,12 +26,15 @@ export default auth((req: any) => {
   if (isApiAuthRoute) {
     return; // returns used to be return null
   }
-
+  // console.log("req auth: ", req.auth);
+  // console.log("req header: ", req.headers);
   if (isAuthRoute) {
     if (isLoggedIn) {
       console.log("redirecting to dashboard");
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
+    console.log("not logged in but it is an auth route");
+
     return;
   }
 
@@ -59,8 +53,6 @@ export default auth((req: any) => {
 
   return;
 });
-
-// export default NextAuth(authConfig).auth;
 
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matc r

@@ -12,79 +12,9 @@ export const GymSessionExerciseSchema = z.object({
 export const GymSessionSchema = z.object({
   userId: z.string(),
   gymTemplateId: z.string(),
-  // exercises: z.record(z.string(), GymSessionExerciseSchema),
   exercises: z.array(GymSessionExerciseSchema),
   date: z.date(),
   description: z.string().optional(),
-});
-
-export const TrainingSessionSchema = z.object({
-  // Need this schema to create a training session
-  // post to database
-  trainingTemplateMetadataId: z.string(),
-});
-
-export const GymSessionAndDataSchema = z.object({
-  trainingTemplateId: z.string(),
-  trainingTemplateMetadataId: z.string(),
-  date: z.date(),
-  description: z.string().optional(),
-  exercises: z.array(
-    z.object({
-      exerciseId: z.string(),
-      sets: z.number(),
-      reps: z.number(),
-      weight: z.number(),
-      notes: z.string().optional(),
-    })
-  ),
-  userId: z.string(),
-});
-
-// {
-//   "clv0971k00001j603jg569l9t": {
-//       "lbs": [
-//           "4",
-//           "4234322",
-//           "24342423"
-//       ],
-//       "reps": [
-//           "3443",
-//           "2423424",
-//           "2424234234"
-//       ],
-//       "notes": "234234twrgdsfgdfgtre3q",
-//       "finishedExercise": true
-//   },
-//   "cluy9uw2y0001cv170bv7ynpc": {
-//       "lbs": [
-//           "221343424324",
-//           "22342",
-//           "24234"
-//       ],
-//       "reps": [
-//           "24324234234",
-//           "242342",
-//           "22423424"
-//       ],
-//       "notes": "adsfqwertwqf\nwtwqetqtrq245235"
-//   }
-// }
-
-export const GymSessionDataSchema = z.object({
-  // Need this schema to store each set of each exercise from GymSession
-  // post to database
-  // Think about how the data is going to be sent through react hook form
-  // z.array() is probably necessary.
-  // Think of the simplest way to send data with the least manipulating
-  exerciseId: z.string(),
-  gymSessionId: z.string(),
-  gymTemplateId: z.string(),
-  sets: z.number(),
-  reps: z.number(),
-  weight: z.number(),
-  notes: z.string().optional(),
-  userId: z.string(),
 });
 
 export const GymTemplateExerciseSchema = z.object({

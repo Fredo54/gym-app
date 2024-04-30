@@ -16,3 +16,35 @@ export type TrainingTemplate = {
   sets: number;
   reps: number;
 };
+
+export type TransformedExerciseInstances = {
+  [key: string]: {
+    weight: number;
+    setCount: number;
+    repCount: number;
+    gymSessionDataId: string;
+    ExerciseId: {
+      id: string;
+    };
+  }[];
+};
+
+export type TransformedGymSession = {
+  GymSessionData?: {
+    exercise: {
+      name: string;
+      id: string;
+    };
+    exerciseInstances: TransformedExerciseInstances[string];
+    notes: string | null;
+    GymTemplate: {
+      name: string;
+      id: string;
+    };
+    id: string;
+  }[];
+  GymTemplate: {
+    name: string;
+    id: string;
+  };
+};

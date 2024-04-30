@@ -44,7 +44,6 @@ const routes = [
 
 export const Navbar = () => {
   const pathname = usePathname();
-  console.log("pathname: ", pathname);
 
   return (
     <div className="w-full">

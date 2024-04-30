@@ -1,6 +1,4 @@
-import NextAuth, { type DefaultSession } from "next-auth";
-import GitHub from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
+import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
@@ -25,8 +23,6 @@ export const {
   signOut,
   auth,
 } = NextAuth({
-  // redirectProxyUrl: process.env.NEXT_AUTH_URL,
-
   pages: {
     signIn: `/auth/login`,
     error: `/auth/error`,
@@ -74,15 +70,9 @@ export const {
       }
       return true;
     },
-    // async signIn({ user }) {
-    //   const existingUser = await getUserById(user.id as string);
-    //   if (!existingUser || !existingUser.emailVerified) {
-    //     return false;
-    //   }
-    //   return true;
-    // },
     async session({ token, session }) {
       // console.log({ sessionToken: token, session });
+      // console.log("session: ", session);
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -100,9 +90,10 @@ export const {
       return session;
     },
     async jwt({ token }) {
-      // console.log("I AM BEING CALLED AGAIN");
+      // console.log("token: ", token);
+
       if (!token.sub) return token;
-      // console.log({ token });
+
       const existingUser = await getUserById(token.sub);
 
       if (!existingUser) return token;
@@ -120,13 +111,7 @@ export const {
   },
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
-  // providers: [
-  //   GitHub,
-  //   Google({
-  //     clientId: process.env.GOOGLE_CLIENT_ID,
-  //     clientSecret: process.env.GOOGLE_SECRET_ID,
-  //   }),
-  // ],
+  // Change this secret
   secret: "6c0cd20d8e5e1ba1b31ff6718ada79f5",
   ...authConfig,
 });
