@@ -11,18 +11,13 @@ export default function Page() {
     router.push("/auth/login");
   };
   return (
-    <main className="flex h-full flex-col items-center text-center justify-center bg-neutral-900 text-zinc-200">
+    <main className="flex h-full flex-col items-center text-center justify-center">
       <div className="space-y-6">
-        <h1 className="text-6xl font-semibold drop-shadow-md">Auth</h1>
-        <p className="text-lg">A simple Authentication Service</p>
+        <h1 className="text-6xl font-semibold drop-shadow-md">Gym App</h1>
+        <p className="text-lg">A simple fitness app tracking service</p>
       </div>
       <LoginButton>
-        <Button
-          className="rounded-md bg-blue-300 text-sky-950 pl-3 pr-3"
-          size="lg"
-          variant="destructive"
-          // onClick={handleClick}
-        >
+        <Button className="rounded-md pl-3 pr-3" size="lg">
           Sign In
         </Button>
       </LoginButton>

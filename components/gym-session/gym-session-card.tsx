@@ -124,7 +124,7 @@ export const GymSessionCard = () => {
                           // key={`${item.id}-${data.ExerciseInstance[idx].ExerciseId.id}-${idx}`}
                           key={`${item.id}-${data.exercise.name}-${idx}`}
                           // max-w-[180px]
-                          className=" text-xs flex flex-row justify-between font-mono p-1 bg-slate-100 rounded-md"
+                          className=" text-xs flex flex-row justify-between font-mono p-1 bg-primary text-primary-foreground rounded-md"
                         >
                           <div> {`${data.exercise.name}`}</div>
                           <div>
@@ -140,7 +140,7 @@ export const GymSessionCard = () => {
                     })}
                     <p className="text-sm font-medium">Description</p>
                     {item.description && (
-                      <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
+                      <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-primary text-primary-foreground rounded-md">
                         {item.description}
                       </p>
                     )}

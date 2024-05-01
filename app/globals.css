@@ -7,6 +7,8 @@ body,
 :root {
   height: 100%;
 }
+@import 'css/light.css';
+@import 'css/dark.css';
 
 @layer base {
   :root {
@@ -41,7 +43,7 @@ body,
     --radius: 0.5rem;
   }
 
-  .dark {
+  /* .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
@@ -69,6 +71,58 @@ body,
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+  } */
+
+  .dark {
+    --background: 210 20.0% 7.8%;
+    --foreground: 225 14.8% 89.4%;
+
+    --card: 210 20.0% 7.8%;
+    --card-foreground: 225 14.8% 89.4%;
+
+    --popover: 210 20.0% 7.8%;
+    --popover-foreground: 225 14.8% 89.4%;
+
+    /* rgb(155 203 251); */
+    /* rgb(0 51 83); */
+    --primary: 194 46.0% 73.1%;
+    --primary-foreground: 203 100.0% 16.3%;
+
+    /* rgb(185 200 218); */
+    /* rgb(35 50 64); */
+    --secondary: 213 30.8% 79.0%;
+    --secondary-foreground: 209 29.3% 19.4%;
+
+
+    /* --muted:  */
+    --muted: rgb(155 203 251);
+    --muted-foreground: rgb(35 50 64);
+
+    /* --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%; */
+
+    /* --accent: 217.2 32.6% 17.5%; */
+    /* --accent-foreground: 210 40% 98%; */
+
+    --accent: 213 30.8% 79.0%;
+    --accent-foreground: 209 29.3% 19.4%;
+
+
+    /* rgb(255 180 171); */
+    /* rgb(105 0 5); */
+    --destructive: 6 100.0% 83.5%;
+    --destructive-foreground: 357 100.0% 20.6%;
+
+    --border: 217.2 32.6% 17.5%;
+
+    /* rgb(140 145 152); */
+    /* --input: 217.2 32.6% 17.5%; */
+    --input: 215 5.5% 57.3%;
+    --ring: 212.7 26.8% 83.9%;
+
+
+
+
   }
 }
 

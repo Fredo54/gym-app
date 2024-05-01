@@ -7,12 +7,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { ModeToggle } from "../theme/mode-toggle";
+import { ThemeButton } from "../theme/theme-button";
 
 export const UserButton = () => {
   const user = useCurrentUser();
@@ -22,8 +25,8 @@ export const UserButton = () => {
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={user?.image || ""} />
-          <AvatarFallback className="bg-sky-500">
-            <FaUser className="text-white" />
+          <AvatarFallback className="bg-primary">
+            <FaUser />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -34,6 +37,9 @@ export const UserButton = () => {
             Logout
           </DropdownMenuItem>
         </LogoutButton>
+        <DropdownMenuSeparator />
+
+        <ThemeButton />
       </DropdownMenuContent>
     </DropdownMenu>
   );

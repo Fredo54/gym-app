@@ -45,7 +45,7 @@ export const TrainingTemplateCard = ({
         <span className="border-t-2" />
 
         <CardContent className="flex items-center flex-col ">
-          <div className="text-sm h-[50px] text-wrap overflow-hidden text-left text-slate-500">
+          <div className="text-sm h-[50px] text-wrap overflow-hidden text-left">
             <p>Chest day template with arms</p>
           </div>
         </CardContent>
@@ -76,7 +76,7 @@ export const TrainingTemplateCard = ({
                       className="flex flex-row items-center justify-between text-sm "
                     >
                       <div>
-                        {exercise.reps} x {exercise.sets}
+                        {exercise.sets} x {exercise.reps}
                       </div>
                       <div>{exercise.name}</div>
                     </div>

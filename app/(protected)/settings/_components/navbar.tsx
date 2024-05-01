@@ -47,12 +47,12 @@ export const Navbar = () => {
 
   return (
     <div className="w-full">
-      <nav className="bg-secondary hidden md:flex justify-between items-center p-4 rounded-xl  shadow-sm">
+      <nav className="hidden md:flex justify-between items-center p-4 rounded-xl  shadow-sm">
         <div className="flex gap-x-2">
           {routes.map(({ name, href }) => (
             <Button
               asChild
-              variant={pathname === href ? "default" : "outline"}
+              variant={pathname === href ? "default" : "link"}
               key={name}
             >
               <Link href={href}>{name}</Link>

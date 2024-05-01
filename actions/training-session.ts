@@ -16,7 +16,16 @@ export const createTrainingSession = async (
   const { exercises, date, description, gymTemplateId, userId } =
     validatedFields.data;
 
-  const gymSessionDataPayload = [];
+  const gymSessionDataPayload: {
+    id: string;
+    exerciseId: string;
+    gymSessionId: string;
+    gymTemplateId: string;
+    notes: string | undefined;
+    userId: string;
+    isFinished: boolean;
+    orderId: number;
+  }[] = [];
 
   const exerciseInstancesPayload: {
     weight: number;
@@ -41,6 +50,7 @@ export const createTrainingSession = async (
       },
     });
 
+    let orderId = 0;
     for (const exercise of exercises) {
       gymSessionDataPayload.push({
         id: uuid(),
@@ -50,7 +60,11 @@ export const createTrainingSession = async (
         notes: exercise.notes,
         userId: userId,
         isFinished: exercise.isFinished,
+        orderId: orderId,
       });
+
+      orderId += 1;
+
       for (let i = 0; i < exercise.reps.length; i++) {
         exerciseInstancesPayload.push({
           gymSessionDataId: gymSessionDataPayload.at(-1)?.id as string,
@@ -114,9 +128,9 @@ export const getTrainingSessionAll = async (
           },
         },
         GymSessionData: {
-          // orderBy: {
-          // TODO: ADD ORDER ID FOR GYMSESSIONDATA
-          // }
+          orderBy: {
+            orderId: "asc",
+          },
           select: {
             id: true,
             notes: true,
@@ -215,6 +229,9 @@ export const getTrainingSessionById = async (id: string, userId: string) => {
           },
         },
         GymSessionData: {
+          orderBy: {
+            orderId: "asc",
+          },
           select: {
             id: true,
             notes: true,
