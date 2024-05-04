@@ -32,6 +32,8 @@ import {
   AlertDialogPortal,
 } from "@/components/ui/alert-dialog";
 import { GymSessionDialogEdit } from "@/components/gym-session/gym-session-dialog-edit";
+import { Suspense } from "react";
+import { RotatingDotsLoader } from "../ui/rotating-dots-loader";
 
 export const GymSessionDropdownMenu = ({
   gymSessionId,
@@ -69,9 +71,11 @@ export const GymSessionDropdownMenu = ({
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Edit me later</DialogTitle>
-                <DialogDescription asChild>
-                  <GymSessionDialogEdit gymSessionId={gymSessionId} />
-                </DialogDescription>
+                <Suspense fallback={<RotatingDotsLoader />}>
+                  <DialogDescription asChild>
+                    <GymSessionDialogEdit gymSessionId={gymSessionId} />
+                  </DialogDescription>
+                </Suspense>
               </DialogHeader>
             </DialogContent>
           </DialogPortal>

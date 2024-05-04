@@ -9,15 +9,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { v4 as uuid } from "uuid";
-import { Pencil2Icon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { getTrainingSessionAll } from "@/actions/training-session";
-import { Fragment, useState } from "react";
+import { Fragment, Suspense, useState } from "react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { formatTimeToHours } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { GymSessionDropdownMenu } from "@/components/gym-session/gym-session-dropdown-menu";
 import { useQuery } from "@tanstack/react-query";
+import { RotatingDotsLoader } from "../ui/rotating-dots-loader";
 type GymSessionCardProps = {
   data: {
     GymTemplate: {
@@ -82,9 +82,9 @@ export const GymSessionCard = () => {
     }
   };
 
-  if (isLoading) {
-    return <>Loading...</>;
-  }
+  // if (isLoading) {
+  //   return <>Loading...</>;
+  // }
   return (
     <ScrollArea className="h-[400px]">
       <div className="flex flex-col gap-y-4 items-center">

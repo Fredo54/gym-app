@@ -4,6 +4,9 @@ import { GymSessionEditForm } from "./gym-session-edit-form";
 import { getTrainingSessionById } from "@/actions/training-session";
 import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { Suspense } from "react";
+import { RotatingDotsLoader } from "../ui/rotating-dots-loader";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 const foo = {
   date: "2024-04-23T06:51:37.940Z",
@@ -65,7 +68,7 @@ export const GymSessionDialogEdit = ({
 }) => {
   const user = useCurrentUser();
 
-  const { data, error, isFetched, isLoading } = useQuery({
+  const { data, error, isFetched, isLoading } = useSuspenseQuery({
     queryKey: ["sessionId"],
     queryFn: async () =>
       getTrainingSessionById(gymSessionId, user?.id as string).then((data) => {
@@ -87,12 +90,19 @@ export const GymSessionDialogEdit = ({
         };
       }),
   });
-
-  if (isLoading) {
-    return <>Loading...</>;
+  if (error) {
+    throw error;
   }
+  // if (isLoading) {
+  //   return <>Loading...</>;
+  // }
 
   console.log("data: ", data);
 
-  return <GymSessionEditForm data={data} />;
+  return (
+    // <Suspense fallback={<RotatingDotsLoader />}>
+    // <p>Bruh</p>
+    <GymSessionEditForm data={data} />
+    // </Suspense>
+  );
 };

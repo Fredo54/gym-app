@@ -5,7 +5,6 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
-import { ModeToggle } from "@/components/theme/mode-toggle";
 
 const inter = Inter({ subsets: ["latin"] });
 
