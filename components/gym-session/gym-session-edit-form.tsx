@@ -305,7 +305,7 @@ export const GymSessionEditForm = ({ data }: { data: Foo }) => {
                                             <SwitchWrapper
                                               checked={field.value}
                                               onCheckedChange={field.onChange}
-                                              id="is-finished"
+                                              id={`exercise-${index}-finished`}
                                               text="Finished?"
                                             />
                                           </FormControl>
