@@ -34,11 +34,16 @@ import {
 import { GymSessionDialogEdit } from "@/components/gym-session/gym-session-dialog-edit";
 import { Suspense } from "react";
 import { RotatingDotsLoader } from "../ui/rotating-dots-loader";
+import { deleteTrainingSession } from "@/actions/training-session";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const GymSessionDropdownMenu = ({
   gymSessionId,
+  onDelete,
 }: {
   gymSessionId: string;
+  onDelete: (gymSessionId: string) => void;
 }) => {
   //   const [click, setClick] = useState(false);
 
@@ -47,7 +52,16 @@ export const GymSessionDropdownMenu = ({
   //       gymSessionId,
   //     });
   //   };
-
+  // const router = useRouter();
+  // const onClick = async () => {
+  //   const { success, error } = await deleteTrainingSession(gymSessionId);
+  //   if (success) {
+  //     toast.success(success);
+  //     router.refresh();
+  //   } else {
+  //     toast.error(error);
+  //   }
+  // };
   return (
     <Dialog>
       <AlertDialog>
@@ -59,9 +73,7 @@ export const GymSessionDropdownMenu = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DialogTrigger asChild>
-              <DropdownMenuItem onSelect={() => console.log("edit")}>
-                Edit
-              </DropdownMenuItem>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
             </DialogTrigger>
             <AlertDialogTrigger asChild>
               <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -90,7 +102,9 @@ export const GymSessionDropdownMenu = ({
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={() => onDelete(gymSessionId)}>
+                  Continue
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogPortal>

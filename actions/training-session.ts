@@ -4,6 +4,7 @@ import { z } from "zod";
 import { GymSessionSchema } from "@/schemas";
 import { v4 as uuid } from "uuid";
 import { Foo } from "@/components/gym-session/gym-session-edit-form";
+import { cookies } from "next/headers";
 
 export const createTrainingSession = async (
   values: z.infer<typeof GymSessionSchema>
@@ -98,6 +99,8 @@ export const getTrainingSessionAll = async (
   limit: number = 10
 ) => {
   // console.log("offset: ", offset, " limit: ", limit);
+  const _cookies = cookies();
+
   try {
     const gymSessions = await db.gymSession.findMany({
       skip: offset,
@@ -380,6 +383,38 @@ export const updateTrainingSession = async (
     //   data: exerciseInstancesPayload,
     // });
     return { success: "Training Session updated!" };
+  } catch (error) {
+    console.error(error);
+    return { error: `Something went wrong! Error: ${error}` };
+  }
+};
+
+export const deleteTrainingSession = async (gymSessionId: string) => {
+  try {
+    const deleteGymSession = db.gymSession.delete({
+      where: {
+        id: gymSessionId,
+      },
+    });
+
+    const deleteGymSessionData = db.gymSessionData.deleteMany({
+      where: {
+        gymSessionId: gymSessionId,
+      },
+    });
+
+    const deleteExerciseInstances = db.exerciseInstance.deleteMany({
+      where: {
+        gymSessionId: gymSessionId,
+      },
+    });
+    await db.$transaction([
+      deleteExerciseInstances,
+      deleteGymSessionData,
+      deleteGymSession,
+    ]);
+
+    return { success: "Training Session deleted!" };
   } catch (error) {
     console.error(error);
     return { error: `Something went wrong! Error: ${error}` };

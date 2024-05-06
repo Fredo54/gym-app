@@ -10,7 +10,10 @@ import {
 } from "@/components/ui/card";
 import { v4 as uuid } from "uuid";
 import { Button } from "@/components/ui/button";
-import { getTrainingSessionAll } from "@/actions/training-session";
+import {
+  deleteTrainingSession,
+  getTrainingSessionAll,
+} from "@/actions/training-session";
 import { Fragment, Suspense, useState } from "react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { formatTimeToHours } from "@/lib/utils";
@@ -18,6 +21,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { GymSessionDropdownMenu } from "@/components/gym-session/gym-session-dropdown-menu";
 import { useQuery } from "@tanstack/react-query";
 import { RotatingDotsLoader } from "../ui/rotating-dots-loader";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 type GymSessionCardProps = {
   data: {
     GymTemplate: {
@@ -60,6 +66,7 @@ export const GymSessionCard = () => {
   const [disable, setDisable] = useState(false);
   const limit = 1;
   const [gymSessionData, setGymSessionData] = useState(data || []);
+  const router = useRouter();
 
   const onClick = async () => {
     try {
@@ -79,6 +86,18 @@ export const GymSessionCard = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleDelete = async (gymSessionId: string) => {
+    const { success, error } = await deleteTrainingSession(gymSessionId);
+    if (success) {
+      toast.success(success);
+      setGymSessionData((gymSessionData) =>
+        gymSessionData.filter((item) => item.id !== gymSessionId)
+      );
+    } else {
+      toast.error(error);
     }
   };
 
@@ -113,7 +132,10 @@ export const GymSessionCard = () => {
                     <span className="flex flex-row items-center justify-between">
                       <p className="text-sm font-medium">Exercise</p>
 
-                      <GymSessionDropdownMenu gymSessionId={item.id} />
+                      <GymSessionDropdownMenu
+                        gymSessionId={item.id}
+                        onDelete={handleDelete}
+                      />
                     </span>
 
                     {item.GymSessionData.map((data, idx) => {

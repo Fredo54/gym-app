@@ -6,8 +6,6 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { RotatingDotsLoader } from "@/components/ui/rotating-dots-loader";
 
 const TrainingLogPage = async () => {
   // const user = useCurrentUser();
@@ -21,7 +19,6 @@ const TrainingLogPage = async () => {
   });
 
   return (
-    // <Suspense fallback={<>TrainingLog Page.tsx loader</>}>
     <div className="w-full">
       <h1>Gym Session Log Page</h1>
 
@@ -29,7 +26,6 @@ const TrainingLogPage = async () => {
         <GymSessionCard />
       </HydrationBoundary>
     </div>
-    // </Suspense>
   );
 };
 
