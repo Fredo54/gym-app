@@ -282,7 +282,12 @@ export const GymSessionEditForm = ({ data }: { data: Foo }) => {
                                             placeholder="Exercise Name"
                                             {...field}
                                           /> */}
-                                                <Textarea {...field} />
+                                                <Textarea
+                                                  {...field}
+                                                  defaultValue={
+                                                    exercise.notes || ""
+                                                  }
+                                                />
                                               </DialogHeader>
                                               <DialogFooter>
                                                 <DialogClose asChild>
