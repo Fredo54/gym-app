@@ -102,7 +102,9 @@ export const GymSessionDialogEdit = ({
   return (
     // <Suspense fallback={<RotatingDotsLoader />}>
     // <p>Bruh</p>
+
     <GymSessionEditForm data={data} />
+
     // </Suspense>
   );
 };

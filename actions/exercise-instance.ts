@@ -42,3 +42,7 @@ export const getExerciseInstancesByGymSessionId = async (
     return null;
   }
 };
+
+export const deleteExerciseInstanceByGymSessionId = async (
+  gymSessionId: string
+) => {};

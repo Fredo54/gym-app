@@ -49,6 +49,7 @@ import {
 } from "@/actions/training-session";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useRouter } from "next/navigation";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export type Foo =
   | {
@@ -163,7 +164,7 @@ export const GymSessionEditForm = ({ data }: { data: Foo }) => {
   };
 
   return (
-    <>
+    <ScrollArea className="h-max-[100px] overflow-auto">
       {data?.gymSessionData && (
         <>
           <Form {...form}>
@@ -334,6 +335,6 @@ export const GymSessionEditForm = ({ data }: { data: Foo }) => {
           {/* <DevTool control={form.control} /> */}
         </>
       )}
-    </>
+    </ScrollArea>
   );
 };

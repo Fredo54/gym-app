@@ -13,15 +13,15 @@ export const createExercise = async (
   }
   const { name, userId } = validatedFields.data;
 
-  await db.exercise.create({
+  const exercise = await db.exercise.create({
     data: {
       name: name,
       userId: userId,
     },
   });
-
+  console.log("exercise:", exercise);
   console.log(values);
-  return { success: "Exercise created!" };
+  return { success: "Exercise created!", res: exercise };
 };
 
 export const getExerciseAll = async (userId: string) => {

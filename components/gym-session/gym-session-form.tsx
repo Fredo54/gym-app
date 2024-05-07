@@ -43,9 +43,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { SwitchWrapper } from "@/components/gym-session/switch-wrapper";
 import { TrainingTemplate } from "@/types/types";
 import { GymSessionSchema } from "@/schemas";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { createTrainingSession } from "@/actions/training-session";
+import { DatePicker } from "@/components/ui/date-picker";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 const today = new Date();
 
@@ -56,6 +58,8 @@ export const GymSessionForm = ({
   trainingTemplate: TrainingTemplate[];
   userId: string;
 }) => {
+  const [date, setDate] = useState<Date>(today);
+
   const defaultExercisesValues = useMemo(() => {
     const values: {
       exerciseId: string;
@@ -82,7 +86,7 @@ export const GymSessionForm = ({
     resolver: zodResolver(GymSessionSchema),
     defaultValues: {
       userId: userId,
-      date: today,
+      date: date,
       description: "",
       exercises: defaultExercisesValues,
       gymTemplateId: trainingTemplate[0].gymTemplateId,
@@ -90,6 +94,12 @@ export const GymSessionForm = ({
   });
   const { formState, setError } = form;
   const { isDirty } = formState;
+
+  const onSelect: SelectSingleEventHandler = (date?: Date) => {
+    if (date) {
+      setDate(date);
+    }
+  };
 
   const onSubmit = async (values: z.infer<typeof GymSessionSchema>) => {
     for (const exerciseId in values.exercises) {
@@ -99,6 +109,7 @@ export const GymSessionForm = ({
       const hasEmptyWeight = values.exercises[exerciseId].weight.some(
         (weight) => weight === 0
       );
+
       // This does not work, perhaps use sonner to alert the user
       //  that it cannot leave as 0
       if (hasEmptyReps || hasEmptyWeight) {
@@ -114,6 +125,8 @@ export const GymSessionForm = ({
     }
 
     console.log("values: ", values);
+    values.date = date;
+
     const { success, error } = await createTrainingSession(values);
     if (success) {
       toast.success(success);
@@ -130,8 +143,11 @@ export const GymSessionForm = ({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card>
-            <CardHeader>
-              <CardTitle>{trainingTemplate[0].GymTemplate.name}</CardTitle>
+            <CardHeader className="flex flex-row justify-between">
+              <CardTitle className="flex items-center">
+                {trainingTemplate[0].GymTemplate.name}
+              </CardTitle>
+              <DatePicker date={date} onSelect={onSelect} />
             </CardHeader>
 
             <CardContent>

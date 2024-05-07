@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableBody,
@@ -10,11 +12,19 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { currentUser } from "@/lib/auth";
 import { getExerciseAll } from "@/data/exercise";
+import { Exercise } from "@prisma/client";
+import { useState } from "react";
 
-export const ExerciseTable = async () => {
-  const user = await currentUser();
+export const ExerciseTable = ({
+  userId,
+  exercises,
+}: {
+  userId: string;
+  exercises: Exercise[];
+}) => {
+  // const user = await currentUser();
   // TODO: Add Pagination here for the exercise table
-  const exercises = await getExerciseAll(user?.id as string);
+  // const exercises = await getExerciseAll(user?.id as string);
 
   return (
     <div className="w-full">
